@@ -1,0 +1,25 @@
+<resources>
+    <string name="cdrp_mon">Hai</string>
+    <string name="cdrp_tue">Ba</string>
+    <string name="cdrp_wed">Tư</string>
+    <string name="cdrp_thu">Năm</string>
+    <string name="cdrp_fri">Sáu</string>
+    <string name="cdrp_sat">Bảy</string>
+    <string name="cdrp_sun">CN</string>
+
+    <string-array name="week_sun_sat">
+        <item>@string/cdrp_sun</item>
+        <item>@string/cdrp_mon</item>
+        <item>@string/cdrp_tue</item>
+        <item>@string/cdrp_wed</item>
+        <item>@string/cdrp_thu</item>
+        <item>@string/cdrp_fri</item>
+        <item>@string/cdrp_sat</item>
+    </string-array>
+
+    <string name="cancel">Hủy</string>
+    <string name="done">Ok</string>
+    <string name="title_time_picker">Chọn Thời Gian</string>
+    <string name="select_time">Chọn thời gian</string>
+
+</resources>

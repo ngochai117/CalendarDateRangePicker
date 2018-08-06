@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="DateRangeMonthView">
+        <attr name="title_color" format="color"/>
+        <attr name="week_color" format="color"/>
+        <attr name="range_color" format="color"/>
+        <attr name="selected_date_circle_color" format="color"/>
+        <attr name="selected_date_color" format="color"/>
+        <attr name="default_date_color" format="color"/>
+        <attr name="range_date_color" format="color"/>
+        <attr name="disable_date_color" format="color"/>
+        <attr name="enable_time_selection" format="boolean"/>
+        <attr name="text_size_title" format="dimension"/>
+        <attr name="text_size_week" format="dimension"/>
+        <attr name="text_size_date" format="dimension"/>
+        <attr name="header_bg" format="integer"/>
+        <attr name="calendar_tag" format="string"/>
+        <attr name="week_offset" format="integer"/>
+        <attr name="today_color" format="color"/>
+        <attr name="today_circle_color" format="color"/>
+        <attr name="enable_day_before_selection" format="boolean"/>
+    </declare-styleable>
+
+
+</resources>

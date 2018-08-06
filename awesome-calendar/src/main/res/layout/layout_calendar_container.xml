@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_horizontal"
+    android:orientation="vertical">
+
+    <include
+        layout="@layout/layout_calendar_nav"/>
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/vpCalendar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/viewpager_height"
+        android:minHeight="@dimen/viewpager_min_size"
+        android:minWidth="@dimen/viewpager_min_size">
+
+    </android.support.v4.view.ViewPager>
+
+</LinearLayout>

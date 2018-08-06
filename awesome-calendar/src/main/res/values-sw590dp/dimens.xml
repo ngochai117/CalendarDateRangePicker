@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- dateTitleLayout -->
+    <dimen name="text_size_title">32sp</dimen>
+    <!-- weekLayout -->
+    <dimen name="weekDaysPadding">0dp</dimen>
+    <dimen name="text_size_week">26sp</dimen>
+    <!-- weekRowLayout -->
+    <dimen name="text_size_date">26sp</dimen>
+    <dimen name="dayOfMonthSize">78dp</dimen>
+    <dimen name="dayOfMonthMinWidth">78dp</dimen>
+    <dimen name="dayOfMonthMinHeight">78dp</dimen>
+
+    <dimen name="today_stroke_size">3dp</dimen>
+
+    <dimen name="linear_layout_days_container_padding">6dp</dimen>
+    <dimen name="viewpager_height">524dp</dimen>
+    <dimen name="viewpager_min_size">524dp</dimen>
+
+
+</resources>
