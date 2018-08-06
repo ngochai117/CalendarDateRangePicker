@@ -1,25 +1,25 @@
 apply plugin: 'com.android.library'
 
 ext {
-    bintrayRepo = 'EnticeArc'
+    bintrayRepo = 'CalendarDateRangePicker'
     bintrayName = 'awesome-calendar'   // Has to be same as your library module name
 
-    publishedGroupId = 'com.archit.calendar'
-    libraryName = 'Awesome-Calendar'
+    publishedGroupId = 'com.giaothoatech.lock.calendar'
+    libraryName = 'Atovi-Calendar'
     artifact = 'awesome-calendar'     // Has to be same as your library module name
 
     libraryDescription = 'Android library to select range of dates.'
 
     // Your github repo link
-    siteUrl = 'https://github.com/ArchitShah248/CalendarDateRangePicker'
-    gitUrl = 'https://github.com/ArchitShah248/CalendarDateRangePicker.git'
-    githubRepository= 'ArchitShah248/CalendarDateRangePicker'
+    siteUrl = 'https://github.com/ngochai117/CalendarDateRangePicker'
+    gitUrl = 'https://github.com/ngochai117/CalendarDateRangePicker.git'
+    githubRepository= 'ngochai117/CalendarDateRangePicker'
 
-    libraryVersion = '1.1.1'
+    libraryVersion = '0.1.0'
 
-    developerId = 'architshah248'
-    developerName = 'Archit Shah'
-    developerEmail = 'architshah248@gmail.com'
+    developerId = 'ngochai117'
+    developerName = 'Hai Nguyen'
+    developerEmail = 'congtuhot9.9@gmail.com'
 
     licenseName = 'The Apache Software License, Version 2.0'
     licenseUrl = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
@@ -35,7 +35,7 @@ android {
         minSdkVersion 16
         targetSdkVersion 27
         versionCode 1
-        versionName "1.1.1"
+        versionName "0.1.0"
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
