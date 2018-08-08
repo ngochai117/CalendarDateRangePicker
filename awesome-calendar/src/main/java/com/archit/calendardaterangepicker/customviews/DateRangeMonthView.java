@@ -5,7 +5,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
-import android.os.AsyncTask;
 import android.os.Build;
 import android.support.annotation.ColorInt;
 import android.support.v4.content.ContextCompat;
@@ -105,11 +104,11 @@ public class DateRangeMonthView extends LinearLayout {
     private OnClickListener dayClickListener = new OnClickListener() {
         @Override
         public void onClick(final View view) {
-            try{
+            try {
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
-                        ((Activity)mContext).runOnUiThread(new Runnable() {
+                        ((Activity) mContext).runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
                                 drawCalendarForMonth(currentCalendarMonth);
@@ -117,11 +116,11 @@ public class DateRangeMonthView extends LinearLayout {
                         });
                     }
                 }).start();
-            }catch (Exception e){
+            } catch (Exception e) {
                 drawCalendarForMonth(currentCalendarMonth);
             }
 
-            try{
+            try {
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
@@ -164,7 +163,7 @@ public class DateRangeMonthView extends LinearLayout {
 
                         final Calendar finalMinSelectedDate = minSelectedDate;
                         final Calendar finalMaxSelectedDate = maxSelectedDate;
-                        ((Activity)mContext).runOnUiThread(new Runnable() {
+                        ((Activity) mContext).runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
                                 if (calendarStyleAttr.isShouldEnabledTime()) {
@@ -203,21 +202,12 @@ public class DateRangeMonthView extends LinearLayout {
                         });
                     }
                 }).start();
-            }catch (Exception e){
+            } catch (Exception e) {
             }
-
-
 
 
         }
     };
-
-    class DrawAsyncTask extends AsyncTask<String,Void,String>{
-        @Override
-        protected String doInBackground(String... strings) {
-            return null;
-        }
-    }
 
     /**
      * To draw calendar for the given month. Here calendar object should start from date of 1st.
@@ -324,8 +314,6 @@ public class DateRangeMonthView extends LinearLayout {
             }
             container.tvDate.setText(String.valueOf(date));
 
-
-
             /*if (isToday) {
                 GradientDrawable mDrawable = (GradientDrawable) ContextCompat.getDrawable(mContext, R.drawable.today_circle);
                 if (type == DateRangeCalendarManager.RANGE_TYPE.START_DATE || type == DateRangeCalendarManager.RANGE_TYPE.LAST_DATE) {
@@ -341,7 +329,6 @@ public class DateRangeMonthView extends LinearLayout {
                 container.tvDate.setTextColor(calendarStyleAttr.getTodayColor());
             }*/
         }
-
         container.rootView.setTag(DayContainer.GetContainerKey(calendar));
     }
 
