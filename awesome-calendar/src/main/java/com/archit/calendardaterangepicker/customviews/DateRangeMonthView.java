@@ -22,8 +22,10 @@ import com.archit.calendardaterangepicker.models.DayContainer;
 import com.archit.calendardaterangepicker.timepicker.AwesomeTimePickerDialog;
 
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by archit.shah on 08/09/2017.
@@ -43,6 +45,8 @@ public class DateRangeMonthView extends LinearLayout {
     private DateRangeCalendarView.CalendarListener calendarListener;
 
     private DateRangeCalendarManager dateRangeCalendarManager;
+
+    private List<Calendar> listCalendarSelected = new ArrayList<>();
 
     public void setCalendarListener(DateRangeCalendarView.CalendarListener calendarListener) {
         this.calendarListener = calendarListener;
@@ -108,22 +112,6 @@ public class DateRangeMonthView extends LinearLayout {
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
-                        ((Activity) mContext).runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                drawCalendarForMonth(currentCalendarMonth);
-                            }
-                        });
-                    }
-                }).start();
-            } catch (Exception e) {
-                drawCalendarForMonth(currentCalendarMonth);
-            }
-
-            try {
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
                         int key = (int) view.getTag();
                         final Calendar selectedCal = Calendar.getInstance();
                         Date date = new Date();
@@ -163,19 +151,54 @@ public class DateRangeMonthView extends LinearLayout {
 
                         final Calendar finalMinSelectedDate = minSelectedDate;
                         final Calendar finalMaxSelectedDate = maxSelectedDate;
-                        ((Activity) mContext).runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                if (calendarStyleAttr.isShouldEnabledTime()) {
-                                    AwesomeTimePickerDialog awesomeTimePickerDialog = new AwesomeTimePickerDialog(mContext, mContext.getString(R.string.select_time), new AwesomeTimePickerDialog.TimePickerCallback() {
+                        try {
+                            new Thread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    ((Activity) mContext).runOnUiThread(new Runnable() {
                                         @Override
-                                        public void onTimeSelected(int hours, int mins) {
-                                            selectedCal.set(Calendar.HOUR, hours);
-                                            selectedCal.set(Calendar.MINUTE, mins);
+                                        public void run() {
+                                            drawCalendarForMonth(currentCalendarMonth);
+                                        }
+                                    });
+                                }
+                            }).start();
+                        } catch (Exception e) {
+                            drawCalendarForMonth(currentCalendarMonth);
+                        }
+                        try {
+                            new Thread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    ((Activity) mContext).runOnUiThread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            if (calendarStyleAttr.isShouldEnabledTime()) {
+                                                AwesomeTimePickerDialog awesomeTimePickerDialog = new AwesomeTimePickerDialog(mContext, mContext.getString(R.string.select_time), new AwesomeTimePickerDialog.TimePickerCallback() {
+                                                    @Override
+                                                    public void onTimeSelected(int hours, int mins) {
+                                                        selectedCal.set(Calendar.HOUR, hours);
+                                                        selectedCal.set(Calendar.MINUTE, mins);
 
-                                            Log.i(LOG_TAG, "Time: " + selectedCal.getTime().toString());
-                                            if (calendarListener != null) {
+                                                        Log.i(LOG_TAG, "Time: " + selectedCal.getTime().toString());
+                                                        if (calendarListener != null) {
 
+                                                            if (finalMaxSelectedDate != null) {
+                                                                calendarListener.onDateRangeSelected(finalMinSelectedDate, finalMaxSelectedDate);
+                                                            } else {
+                                                                calendarListener.onFirstDateSelected(finalMinSelectedDate);
+                                                            }
+                                                        }
+                                                    }
+
+                                                    @Override
+                                                    public void onCancel() {
+                                                        DateRangeMonthView.this.resetAllSelectedViews();
+                                                    }
+                                                });
+                                                awesomeTimePickerDialog.showDialog();
+                                            } else {
+                                                Log.i(LOG_TAG, "Time: " + selectedCal.getTime().toString());
                                                 if (finalMaxSelectedDate != null) {
                                                     calendarListener.onDateRangeSelected(finalMinSelectedDate, finalMaxSelectedDate);
                                                 } else {
@@ -183,23 +206,13 @@ public class DateRangeMonthView extends LinearLayout {
                                                 }
                                             }
                                         }
-
-                                        @Override
-                                        public void onCancel() {
-                                            DateRangeMonthView.this.resetAllSelectedViews();
-                                        }
                                     });
-                                    awesomeTimePickerDialog.showDialog();
-                                } else {
-                                    Log.i(LOG_TAG, "Time: " + selectedCal.getTime().toString());
-                                    if (finalMaxSelectedDate != null) {
-                                        calendarListener.onDateRangeSelected(finalMinSelectedDate, finalMaxSelectedDate);
-                                    } else {
-                                        calendarListener.onFirstDateSelected(finalMinSelectedDate);
-                                    }
                                 }
-                            }
-                        });
+                            }).start();
+                        } catch (Exception e) {
+
+                        }
+
                     }
                 }).start();
             } catch (Exception e) {
@@ -231,7 +244,6 @@ public class DateRangeMonthView extends LinearLayout {
      * @param month Calendar month
      */
     private void drawCalendarForMonth(Calendar month) {
-
         Log.v(LOG_TAG, "Current cal: " + month.getTime().toString());
         currentCalendarMonth = (Calendar) month.clone();
         currentCalendarMonth.set(Calendar.DATE, 1);
@@ -259,14 +271,15 @@ public class DateRangeMonthView extends LinearLayout {
         }
 
         month.add(Calendar.DATE, -startDay + 1);
-
+        LinearLayout weekRow;
+        RelativeLayout rlDayContainer;
+        DayContainer container;
         for (int i = 0; i < llDaysContainer.getChildCount(); i++) {
-            LinearLayout weekRow = (LinearLayout) llDaysContainer.getChildAt(i);
-
+            weekRow = (LinearLayout) llDaysContainer.getChildAt(i);
             for (int j = 0; j < 7; j++) {
-                RelativeLayout rlDayContainer = (RelativeLayout) weekRow.getChildAt(j);
+                rlDayContainer = (RelativeLayout) weekRow.getChildAt(j);
 
-                DayContainer container = new DayContainer(rlDayContainer);
+                container = new DayContainer(rlDayContainer);
 
                 container.tvDate.setText(String.valueOf(month.get(Calendar.DATE)));
                 if (calendarStyleAttr.getFonts() != null) {
@@ -293,16 +306,18 @@ public class DateRangeMonthView extends LinearLayout {
 
         boolean isToday = false;
 
-        if ((today.get(Calendar.DAY_OF_YEAR) == calendar.get(Calendar.DAY_OF_YEAR))) {
+        if ((today.get(Calendar.DAY_OF_YEAR) == calendar.get(Calendar.DAY_OF_YEAR)) && today.get(Calendar.YEAR) == calendar.get(Calendar.YEAR)) {
             isToday = true;
         }
 
         if (currentCalendarMonth.get(Calendar.MONTH) != calendar.get(Calendar.MONTH)) {
             hideDayContainer(container);
         } else if (today.after(calendar) && (today.get(Calendar.DAY_OF_YEAR) != calendar.get(Calendar.DAY_OF_YEAR))) {
+
             disableDayContainer(container);
             container.tvDate.setText(String.valueOf(date));
         } else {
+            container.tvDate.setText(String.valueOf(date));
             @DateRangeCalendarManager.RANGE_TYPE
             int type = dateRangeCalendarManager.checkDateRange(calendar);
             if (type == DateRangeCalendarManager.RANGE_TYPE.START_DATE || type == DateRangeCalendarManager.RANGE_TYPE.LAST_DATE) {
@@ -312,7 +327,6 @@ public class DateRangeMonthView extends LinearLayout {
             } else {
                 enabledDayContainer(container, isToday);
             }
-            container.tvDate.setText(String.valueOf(date));
 
             /*if (isToday) {
                 GradientDrawable mDrawable = (GradientDrawable) ContextCompat.getDrawable(mContext, R.drawable.today_circle);
