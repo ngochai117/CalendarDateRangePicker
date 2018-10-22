@@ -206,4 +206,13 @@ public class DateRangeCalendarView extends LinearLayout {
         calendarStyleAttr.setWeekOffset(offset);
         adapterEventCalendarMonths.invalidateCalendar();
     }
+
+    public void setEnableDayBeforeSelection(boolean enableDayBeforeSelection) {
+        calendarStyleAttr.setEnableDayBeforeSelection(enableDayBeforeSelection);
+    }
+
+
+    public void setEnableDayAfterSelection(boolean enableDayAfterSelection) {
+        calendarStyleAttr.setEnableDayAfterSelection(enableDayAfterSelection);
+    }
 }

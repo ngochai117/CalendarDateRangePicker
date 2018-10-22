@@ -20,6 +20,7 @@
         <attr name="today_color" format="color"/>
         <attr name="today_circle_color" format="color"/>
         <attr name="enable_day_before_selection" format="boolean"/>
+        <attr name="enable_day_after_selection" format="boolean"/>
     </declare-styleable>
 
 

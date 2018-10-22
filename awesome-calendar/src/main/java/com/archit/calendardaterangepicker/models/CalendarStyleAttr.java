@@ -26,6 +26,7 @@ public class CalendarStyleAttr {
     private int todayColor;
     private int todayCircleColor;
     private boolean enableDayBeforeSelection = false;
+    private boolean enableDayAfterSelection = true;
 
     public CalendarStyleAttr(Context context) {
         setDefAttributes(context);
@@ -107,6 +108,7 @@ public class CalendarStyleAttr {
                 todayColor = ta.getColor(R.styleable.DateRangeMonthView_today_color, todayColor);
                 todayCircleColor = ta.getColor(R.styleable.DateRangeMonthView_today_circle_color, todayCircleColor);
                 enableDayBeforeSelection = ta.getBoolean(R.styleable.DateRangeMonthView_enable_day_before_selection, false);
+                enableDayAfterSelection = ta.getBoolean(R.styleable.DateRangeMonthView_enable_day_after_selection, true);
 
 
             } finally {
@@ -253,6 +255,14 @@ public class CalendarStyleAttr {
 
     public void setEnableDayBeforeSelection(boolean enableDayBeforeSelection) {
         this.enableDayBeforeSelection = enableDayBeforeSelection;
+    }
+
+    public boolean isEnableDayAfterSelection() {
+        return enableDayAfterSelection;
+    }
+
+    public void setEnableDayAfterSelection(boolean enableDayAfterSelection) {
+        this.enableDayAfterSelection = enableDayAfterSelection;
     }
 
     /**
