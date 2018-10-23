@@ -19,6 +19,10 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         calendar = (DateRangeCalendarView) findViewById(R.id.calendar);
+        Calendar start = Calendar.getInstance();
+        Calendar end = Calendar.getInstance();
+        end.set(Calendar.MONTH, Calendar.getInstance().get(Calendar.MONTH + 1));
+        calendar.setRangeSelectedDate(start, end);
 /*
         Typeface typeface = Typeface.createFromAsset(getAssets(), "JosefinSans-Regular.ttf");
 //        Typeface typeface = Typeface.createFromAsset(getAssets(), "LobsterTwo-Regular.ttf");

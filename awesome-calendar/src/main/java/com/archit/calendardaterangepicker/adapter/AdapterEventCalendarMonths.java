@@ -3,6 +3,7 @@ package com.archit.calendardaterangepicker.adapter;
 import android.content.Context;
 import android.os.Handler;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.view.PagerAdapter;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -93,7 +94,7 @@ public class AdapterEventCalendarMonths extends PagerAdapter {
                 public void run() {
                     notifyDataSetChanged();
                 }
-            },50);
+            }, 50);
 
 
             if (calendarListener != null) {
@@ -108,7 +109,7 @@ public class AdapterEventCalendarMonths extends PagerAdapter {
                 public void run() {
                     notifyDataSetChanged();
                 }
-            },50);
+            }, 50);
             if (calendarListener != null) {
                 calendarListener.onDateRangeSelected(startDate, endDate);
             }
@@ -122,13 +123,13 @@ public class AdapterEventCalendarMonths extends PagerAdapter {
     /**
      * To redraw calendar.
      */
-    public void invalidateCalendar(){
+    public void invalidateCalendar() {
         mHandler.postDelayed(new Runnable() {
             @Override
             public void run() {
                 notifyDataSetChanged();
             }
-        },50);
+        }, 50);
     }
 
     /**
@@ -140,4 +141,9 @@ public class AdapterEventCalendarMonths extends PagerAdapter {
         notifyDataSetChanged();
     }
 
+    public void setRangeSelectedDate(@Nullable Calendar startDate, @Nullable Calendar endDate) {
+        dateRangeCalendarManager.setMinSelectedDate(startDate);
+        dateRangeCalendarManager.setMaxSelectedDate(endDate);
+        notifyDataSetChanged();
+    }
 }

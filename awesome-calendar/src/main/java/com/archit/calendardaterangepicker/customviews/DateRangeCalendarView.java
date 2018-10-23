@@ -215,4 +215,8 @@ public class DateRangeCalendarView extends LinearLayout {
     public void setEnableDayAfterSelection(boolean enableDayAfterSelection) {
         calendarStyleAttr.setEnableDayAfterSelection(enableDayAfterSelection);
     }
+
+    public void setRangeSelectedDate(@Nullable Calendar startDate, @Nullable Calendar endDate) {
+        adapterEventCalendarMonths.setRangeSelectedDate(startDate, endDate);
+    }
 }
