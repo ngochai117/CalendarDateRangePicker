@@ -11,7 +11,6 @@
         android:id="@+id/calendar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        custom:calendar_view_mode="NoneSelection"
         custom:default_date_color="#ffffff"
         custom:disable_date_color="#ABABAB"
         custom:enable_day_after_selection="true"
@@ -25,6 +24,7 @@
         custom:today_circle_color="#1064ff"
         custom:today_color="#1064ff"
         custom:week_color="#ffffff"
-        custom:week_offset="1" />
+        custom:week_offset="1"
+        custom:description_after_color="#1064ff"/>
 
 </RelativeLayout>

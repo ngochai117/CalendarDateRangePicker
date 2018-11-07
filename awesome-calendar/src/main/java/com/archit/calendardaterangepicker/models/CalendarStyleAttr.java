@@ -31,6 +31,9 @@ public class CalendarStyleAttr {
     private boolean enableDayAfterSelection = true;
     private int calendarViewMode = 0;
 
+    private int descriptionBeforeColor;
+    private int descriptionAfterColor;
+
     public CalendarStyleAttr(Context context) {
         setDefAttributes(context);
     }
@@ -61,6 +64,9 @@ public class CalendarStyleAttr {
         calendarStyleAttr.setTodayColor(ContextCompat.getColor(context, R.color.today_color));
         calendarStyleAttr.setTodayCircleColor(ContextCompat.getColor(context, R.color.today_circle_color));
 
+        calendarStyleAttr.setDescriptionBeforeColor(ContextCompat.getColor(context, R.color.description_color));
+        calendarStyleAttr.setDescriptionAfterColor(ContextCompat.getColor(context, R.color.description_color));
+
         return calendarStyleAttr;
     }
 
@@ -84,6 +90,9 @@ public class CalendarStyleAttr {
 
         setTodayColor(ContextCompat.getColor(context, R.color.today_color));
         setTodayCircleColor(ContextCompat.getColor(context, R.color.today_circle_color));
+
+        setDescriptionBeforeColor(ContextCompat.getColor(context, R.color.description_color));
+        setDescriptionAfterColor(ContextCompat.getColor(context, R.color.description_color));
     }
 
     public void setAttributes(Context context, AttributeSet attributeSet) {
@@ -113,6 +122,9 @@ public class CalendarStyleAttr {
                 enableDayAfterSelection = ta.getBoolean(R.styleable.DateRangeMonthView_enable_day_after_selection, true);
 
                 calendarViewMode = ta.getInt(R.styleable.DateRangeMonthView_calendar_view_mode, VIEW_MODE_RANGE_SELECTION);
+
+                descriptionBeforeColor = ta.getColor(R.styleable.DateRangeMonthView_description_before_color, descriptionBeforeColor);
+                descriptionAfterColor = ta.getColor(R.styleable.DateRangeMonthView_description_after_color, descriptionAfterColor);
             } finally {
                 ta.recycle();
             }
@@ -273,6 +285,22 @@ public class CalendarStyleAttr {
 
     public void setCalendarViewMode(int calendarViewMode) {
         this.calendarViewMode = calendarViewMode;
+    }
+
+    public int getDescriptionBeforeColor() {
+        return descriptionBeforeColor;
+    }
+
+    public void setDescriptionBeforeColor(int descriptionBeforeColor) {
+        this.descriptionBeforeColor = descriptionBeforeColor;
+    }
+
+    public int getDescriptionAfterColor() {
+        return descriptionAfterColor;
+    }
+
+    public void setDescriptionAfterColor(int descriptionAfterColor) {
+        this.descriptionAfterColor = descriptionAfterColor;
     }
 
     /**

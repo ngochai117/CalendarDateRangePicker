@@ -25,6 +25,8 @@
             <enum name="RangeSelection" value="0"/>
             <enum name="NoneSelection" value="1"/>
         </attr>
+        <attr name="description_after_color" format="color"/>
+        <attr name="description_before_color" format="color"/>
     </declare-styleable>
 
 

@@ -18,6 +18,7 @@ public class DayContainer {
 
     public ConstraintLayout rootView;
     public CustomTextView tvDate;
+    public CustomTextView tvDescription;
     public View strip;
 
     private static final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMdd", Locale.getDefault());
@@ -26,6 +27,7 @@ public class DayContainer {
         this.rootView = rootView;
         strip = rootView.getChildAt(0);
         tvDate = (CustomTextView) rootView.getChildAt(1);
+        tvDescription = (CustomTextView) rootView.getChildAt(2);
     }
 
     public static int GetContainerKey(Calendar cal) {

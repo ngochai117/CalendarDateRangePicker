@@ -17,16 +17,18 @@ import com.archit.calendardaterangepicker.models.CalendarStyleAttr;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
 
 public class AdapterEventCalendarMonths extends PagerAdapter {
 
     private Context mContext;
-    private List<Calendar> dataList = new ArrayList<>();
+    private List<Calendar> dataList;
     private CalendarStyleAttr calendarStyleAttr;
     private DateRangeCalendarView.CalendarListener calendarListener;
     private DateRangeCalendarManager dateRangeCalendarManager;
     private Handler mHandler;
+    private HashMap<Long, String> hashMapDescription = new HashMap<>();
 
     public AdapterEventCalendarMonths(Context mContext, List<Calendar> list, CalendarStyleAttr calendarStyleAttr) {
         this.mContext = mContext;
@@ -55,7 +57,7 @@ public class AdapterEventCalendarMonths extends PagerAdapter {
         ViewGroup layout = (ViewGroup) inflater.inflate(R.layout.layout_pager_month, container, false);
 
         DateRangeMonthView dateRangeMonthView = layout.findViewById(R.id.cvEventCalendarView);
-        dateRangeMonthView.drawCalendarForMonth(calendarStyleAttr, getCurrentMonth(modelObject), dateRangeCalendarManager);
+        dateRangeMonthView.drawCalendarForMonth(calendarStyleAttr, getCurrentMonth(modelObject), hashMapDescription, dateRangeCalendarManager);
         dateRangeMonthView.setCalendarListener(calendarAdapterListener);
 
         container.addView(layout);
@@ -71,6 +73,10 @@ public class AdapterEventCalendarMonths extends PagerAdapter {
     private Calendar getCurrentMonth(Calendar calendar) {
         Calendar current = (Calendar) calendar.clone();
         current.set(Calendar.DAY_OF_MONTH, 1);
+        current.set(Calendar.HOUR_OF_DAY, 0);
+        current.set(Calendar.MINUTE, 0);
+        current.set(Calendar.SECOND, 0);
+        current.set(Calendar.MILLISECOND, 0);
         return current;
     }
 
@@ -145,5 +151,9 @@ public class AdapterEventCalendarMonths extends PagerAdapter {
         dateRangeCalendarManager.setMinSelectedDate(startDate);
         dateRangeCalendarManager.setMaxSelectedDate(endDate);
         notifyDataSetChanged();
+    }
+
+    public void setDataDescription(HashMap<Long, String> hashMapDescription) {
+        this.hashMapDescription = hashMapDescription;
     }
 }

@@ -14,6 +14,7 @@ import android.widget.RelativeLayout;
 import com.archit.calendardaterangepicker.R;
 import com.archit.calendardaterangepicker.adapter.AdapterEventCalendarMonths;
 import com.archit.calendardaterangepicker.models.CalendarStyleAttr;
+import com.archit.calendardaterangepicker.models.DayModel;
 
 import java.text.DateFormatSymbols;
 import java.util.ArrayList;
@@ -44,7 +45,6 @@ public class DateRangeCalendarView extends LinearLayout {
 
 
     private final static int TOTAL_ALLOWED_MONTHS = 30;
-    private HashMap<Long, String> hashMapDescription = new HashMap<>();
     private Calendar dateDefaultDisplayed;
 
     public DateRangeCalendarView(Context context) {
@@ -87,7 +87,6 @@ public class DateRangeCalendarView extends LinearLayout {
         vpCalendar.setOffscreenPageLimit(0);
         vpCalendar.setCurrentItem(TOTAL_ALLOWED_MONTHS);
         setCalendarYearTitle(TOTAL_ALLOWED_MONTHS);
-
         setListeners();
     }
 
@@ -105,6 +104,7 @@ public class DateRangeCalendarView extends LinearLayout {
             dataList.add((Calendar) datedisplayed.clone());
             datedisplayed.add(Calendar.MONTH, 1);
         }
+
     }
 
     private void setListeners() {
@@ -232,15 +232,17 @@ public class DateRangeCalendarView extends LinearLayout {
     }
 
     public void updateDataDescription(HashMap<Long, String> data) {
-        this.hashMapDescription = data;
-        adapterEventCalendarMonths.invalidateCalendar();
+        adapterEventCalendarMonths.setDataDescription(data);
     }
 
     public void setDateDisplayed(Calendar calendar) {
         dateDefaultDisplayed = calendar;
         initDataCalendar();
-        adapterEventCalendarMonths.invalidateCalendar();
         vpCalendar.setCurrentItem(TOTAL_ALLOWED_MONTHS);
         setCalendarYearTitle(TOTAL_ALLOWED_MONTHS);
+    }
+
+    public void invalidateCalendar() {
+        adapterEventCalendarMonths.invalidateCalendar();
     }
 }
