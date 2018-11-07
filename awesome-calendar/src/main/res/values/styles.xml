@@ -59,8 +59,7 @@
 
     <style name="StripRange">
         <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">@dimen/dayOfMonthMinWidth</item>
-        <item name="android:minHeight">@dimen/dayOfMonthMinHeight</item>
+        <item name="android:layout_height">@dimen/dayOfMonthMinHeight</item>
         <item name="layout_constraintEnd_toEndOf">parent</item>
         <item name="layout_constraintStart_toStartOf">parent</item>
 

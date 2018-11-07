@@ -100,9 +100,9 @@ public class MainActivity extends AppCompatActivity {
                         }
                         Log.d(MainActivity.this.getClass().getSimpleName(), "hashMap: " + hashMap.toString());
 
-                        Calendar start = Calendar.getInstance();
+                        /*Calendar start = Calendar.getInstance();
                         start.add(Calendar.MONTH, -1);
-                        calendar.setDateDisplayed(start);
+                        calendar.setDateDisplayed(start);*/
                         calendar.updateDataDescription(hashMap);
                         //calendar.invalidateCalendar();
                         viewReady = true;

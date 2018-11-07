@@ -11,9 +11,9 @@
     <android.support.v4.view.ViewPager
         android:id="@+id/vpCalendar"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/viewpager_height"
-        android:minHeight="@dimen/viewpager_min_size"
-        android:minWidth="@dimen/viewpager_min_size">
+        android:layout_height="@dimen/viewpager_min_height"
+        android:minHeight="@dimen/viewpager_min_height"
+        android:minWidth="@dimen/viewpager_min_width">
 
     </android.support.v4.view.ViewPager>
 

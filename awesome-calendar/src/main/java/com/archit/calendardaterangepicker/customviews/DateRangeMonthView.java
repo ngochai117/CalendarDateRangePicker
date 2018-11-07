@@ -352,9 +352,6 @@ public class DateRangeMonthView extends LinearLayout {
         Log.d(getClass().getSimpleName(), "hashMapDescription: " + hashMapDescription.toString());
         Log.d(getClass().getSimpleName(), "\ncalendar: " + calendar.getTime()+calendar.getTimeInMillis());
         String description = hashMapDescription.get(calendar.getTimeInMillis());
-        if (hashMapDescription.containsKey(calendar.getTimeInMillis())) {
-
-        }
         if (TextUtils.isEmpty(description)) {
             description = "";
         }
@@ -370,11 +367,11 @@ public class DateRangeMonthView extends LinearLayout {
      * @param container - Container
      */
     private void hideDayContainer(DayContainer container) {
-        container.tvDate.setText("");
+        /*container.tvDate.setText("");
         container.tvDescription.setText("");
         container.tvDate.setBackgroundColor(Color.TRANSPARENT);
         container.strip.setBackgroundColor(Color.TRANSPARENT);
-        container.rootView.setBackgroundColor(Color.TRANSPARENT);
+        container.rootView.setBackgroundColor(Color.TRANSPARENT);*/
         container.rootView.setVisibility(INVISIBLE);
         container.rootView.setOnClickListener(null);
     }
