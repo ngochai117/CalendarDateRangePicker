@@ -339,26 +339,22 @@ public class DateRangeMonthView extends LinearLayout {
                 } else if (type == DateRangeCalendarManager.RANGE_TYPE.MIDDLE_DATE) {
                     makeAsRangeDate(container, calendar, stateDate);
                 } else {
-                    enabledDayContainer(container, calendar, stateDate, CalendarStyleAttr.VIEW_MODE_RANGE_SELECTION);
+                    enabledDayContainer(container, calendar, stateDate);
                 }
             } else {
-                enabledDayContainer(container, calendar, stateDate, CalendarStyleAttr.VIEW_MODE_NONE_SELECTION);
+                enabledDayContainer(container, calendar, stateDate);
             }
         }
         container.rootView.setTag(DayContainer.GetContainerKey(calendar));
     }
 
     private void setTextDescription(TextView tv, Calendar calendar, StateDate stateDate) {
-        Log.d(getClass().getSimpleName(), "hashMapDescription: " + hashMapDescription.toString());
-        Log.d(getClass().getSimpleName(), "\ncalendar: " + calendar.getTime()+calendar.getTimeInMillis());
         String description = hashMapDescription.get(calendar.getTimeInMillis());
-        if (TextUtils.isEmpty(description)) {
-            description = "";
+        if (!TextUtils.isEmpty(description)) {
+            tv.setText(description);
+            tv.setTextColor(stateDate == StateDate.AFTER ?
+                    calendarStyleAttr.getDescriptionAfterColor() : calendarStyleAttr.getDescriptionBeforeColor());
         }
-        Log.d(getClass().getSimpleName(), "description: "+description);
-        tv.setText(description);
-        tv.setTextColor(stateDate == StateDate.AFTER ?
-                calendarStyleAttr.getDescriptionAfterColor() : calendarStyleAttr.getDescriptionBeforeColor());
     }
 
     /**
@@ -367,11 +363,6 @@ public class DateRangeMonthView extends LinearLayout {
      * @param container - Container
      */
     private void hideDayContainer(DayContainer container) {
-        /*container.tvDate.setText("");
-        container.tvDescription.setText("");
-        container.tvDate.setBackgroundColor(Color.TRANSPARENT);
-        container.strip.setBackgroundColor(Color.TRANSPARENT);
-        container.rootView.setBackgroundColor(Color.TRANSPARENT);*/
         container.rootView.setVisibility(INVISIBLE);
         container.rootView.setOnClickListener(null);
     }
@@ -386,7 +377,6 @@ public class DateRangeMonthView extends LinearLayout {
         setTextDescription(container.tvDescription, calendar, stateDate);
         container.tvDate.setBackgroundColor(Color.TRANSPARENT);
         container.strip.setBackgroundColor(Color.TRANSPARENT);
-        container.rootView.setBackgroundColor(Color.TRANSPARENT);
         container.tvDate.setTextColor(calendarStyleAttr.getDisableDateColor());
         container.rootView.setVisibility(VISIBLE);
         container.rootView.setOnClickListener(null);
@@ -397,7 +387,7 @@ public class DateRangeMonthView extends LinearLayout {
      *
      * @param container - Container
      */
-    private void enabledDayContainer(DayContainer container, Calendar calendar, StateDate stateDate, int viewMode) {
+    private void enabledDayContainer(DayContainer container, Calendar calendar, StateDate stateDate) {
         if (stateDate == StateDate.TODAY) {
             GradientDrawable mDrawable = (GradientDrawable) ContextCompat.getDrawable(mContext, R.drawable.today_circle);
             mDrawable.setColor(Color.TRANSPARENT);
@@ -413,9 +403,8 @@ public class DateRangeMonthView extends LinearLayout {
         container.tvDate.setText(String.valueOf(calendar.get(Calendar.DATE)));
         setTextDescription(container.tvDescription, calendar, stateDate);
         container.strip.setBackgroundColor(Color.TRANSPARENT);
-        container.rootView.setBackgroundColor(Color.TRANSPARENT);
         container.rootView.setVisibility(VISIBLE);
-        if (viewMode == CalendarStyleAttr.VIEW_MODE_RANGE_SELECTION) {
+        if (calendarStyleAttr.getCalendarViewMode() == CalendarStyleAttr.VIEW_MODE_RANGE_SELECTION) {
             container.rootView.setOnClickListener(dayClickListener);
         } else {
             container.rootView.setOnClickListener(null);
@@ -466,10 +455,12 @@ public class DateRangeMonthView extends LinearLayout {
 
         container.tvDate.setText(String.valueOf(calendar.get(Calendar.DATE)));
         setTextDescription(container.tvDescription, calendar, stateDate);
-        container.rootView.setBackgroundColor(Color.TRANSPARENT);
         container.rootView.setVisibility(VISIBLE);
-        container.rootView.setOnClickListener(dayClickListener);
-
+        if (calendarStyleAttr.getCalendarViewMode() == CalendarStyleAttr.VIEW_MODE_RANGE_SELECTION) {
+            container.rootView.setOnClickListener(dayClickListener);
+        } else {
+            container.rootView.setOnClickListener(null);
+        }
     }
 
     /**
@@ -495,12 +486,15 @@ public class DateRangeMonthView extends LinearLayout {
         GradientDrawable mDrawable = (GradientDrawable) ContextCompat.getDrawable(mContext, R.drawable.range_bg);
         mDrawable.setColor(calendarStyleAttr.getRangeStripColor());
         container.strip.setBackground(mDrawable);
-        container.rootView.setBackgroundColor(Color.TRANSPARENT);
         container.rootView.setVisibility(VISIBLE);
         ConstraintLayout.LayoutParams layoutParams = (ConstraintLayout.LayoutParams) container.strip.getLayoutParams();
         layoutParams.setMargins(0, 0, 0, 0);
         container.strip.setLayoutParams(layoutParams);
-        container.rootView.setOnClickListener(dayClickListener);
+        if (calendarStyleAttr.getCalendarViewMode() == CalendarStyleAttr.VIEW_MODE_RANGE_SELECTION) {
+            container.rootView.setOnClickListener(dayClickListener);
+        } else {
+            container.rootView.setOnClickListener(null);
+        }
     }
 
 

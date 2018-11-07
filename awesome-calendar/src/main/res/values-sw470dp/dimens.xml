@@ -12,6 +12,8 @@
     <dimen name="dayOfMonthSize">62dp</dimen>
     <dimen name="dayOfMonthMinWidth">62dp</dimen>
     <dimen name="dayOfMonthMinHeight">52dp</dimen>
+    <dimen name="dayOfMonthDesMarginTop">39dp</dimen>
+
 
     <dimen name="today_stroke_size">2dp</dimen>
 

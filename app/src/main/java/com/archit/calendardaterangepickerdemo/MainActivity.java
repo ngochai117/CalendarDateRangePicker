@@ -96,9 +96,7 @@ public class MainActivity extends AppCompatActivity {
                         for (int i = 0; i < totalDate * 2; i++) {
                             hashMap.put(today.getTimeInMillis(), String.valueOf(today.get(Calendar.DAY_OF_YEAR)));
                             today.add(Calendar.DATE, 1);
-                            Log.d(MainActivity.this.getClass().getSimpleName(), "main: " + today.getTime() + today.getTimeInMillis());
                         }
-                        Log.d(MainActivity.this.getClass().getSimpleName(), "hashMap: " + hashMap.toString());
 
                         /*Calendar start = Calendar.getInstance();
                         start.add(Calendar.MONTH, -1);
