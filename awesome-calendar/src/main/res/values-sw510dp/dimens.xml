@@ -8,15 +8,16 @@
     <dimen name="text_size_week">22sp</dimen>
     <!-- weekRowLayout -->
     <dimen name="text_size_date">22sp</dimen>
+    <dimen name="text_size_date_description">19sp</dimen>
     <dimen name="dayOfMonthSize">68dp</dimen>
     <dimen name="dayOfMonthMinWidth">68dp</dimen>
-    <dimen name="dayOfMonthMinHeight">68dp</dimen>
+    <dimen name="dayOfMonthMinHeight">56dp</dimen>
 
     <dimen name="today_stroke_size">2dp</dimen>
 
     <dimen name="linear_layout_days_container_padding">5dp</dimen>
-    <dimen name="viewpager_height">453dp</dimen>
-    <dimen name="viewpager_min_size">453dp</dimen>
+    <dimen name="viewpager_min_height">464dp</dimen>
+    <dimen name="viewpager_min_width">464dp</dimen>
 
 
 </resources>

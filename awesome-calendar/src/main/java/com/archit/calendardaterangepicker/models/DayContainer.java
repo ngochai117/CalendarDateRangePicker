@@ -1,5 +1,6 @@
 package com.archit.calendardaterangepicker.models;
 
+import android.support.constraint.ConstraintLayout;
 import android.view.View;
 import android.widget.RelativeLayout;
 
@@ -15,16 +16,18 @@ import java.util.Locale;
 
 public class DayContainer {
 
-    public RelativeLayout rootView;
+    public ConstraintLayout rootView;
     public CustomTextView tvDate;
+    public CustomTextView tvDescription;
     public View strip;
 
     private static final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMdd", Locale.getDefault());
 
-    public DayContainer(RelativeLayout rootView) {
+    public DayContainer(ConstraintLayout rootView) {
         this.rootView = rootView;
         strip = rootView.getChildAt(0);
         tvDate = (CustomTextView) rootView.getChildAt(1);
+        tvDescription = (CustomTextView) rootView.getChildAt(2);
     }
 
     public static int GetContainerKey(Calendar cal) {
