@@ -19,4 +19,5 @@
     <color name="calendar_text">#474747</color>
     <color name="today_circle_color">#1064ff</color>
     <color name="today_color">#1064ff</color>
+    <color name="description_color">#35e200</color>
 </resources>
