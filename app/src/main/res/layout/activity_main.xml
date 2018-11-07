@@ -2,29 +2,16 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:custom="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/rl_parrent"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#4b4b4b"
     tools:context="com.archit.calendardaterangepickerdemo.MainActivity">
 
-    <com.archit.calendardaterangepicker.customviews.DateRangeCalendarView
-        android:id="@+id/calendar"
-        android:layout_width="match_parent"
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        custom:default_date_color="#ffffff"
-        custom:disable_date_color="#ABABAB"
-        custom:enable_day_after_selection="true"
-        custom:enable_day_before_selection="true"
-        custom:header_bg="@drawable/calendar_header"
-        custom:range_color="#00ad5e"
-        custom:range_date_color="#ffe100"
-        custom:selected_date_circle_color="#00ad5e"
-        custom:selected_date_color="#ffe100"
-        custom:title_color="@color/calendar_header_title"
-        custom:today_circle_color="#1064ff"
-        custom:today_color="#1064ff"
-        custom:week_color="#ffffff"
-        custom:week_offset="1"
-        custom:description_after_color="#1064ff"/>
+        android:layout_centerInParent="true"/>
 
 </RelativeLayout>

@@ -25,13 +25,6 @@ import java.util.Locale;
 
 public class DateRangeCalendarView extends LinearLayout {
 
-
-    public interface CalendarListener {
-        void onFirstDateSelected(Calendar startDate);
-
-        void onDateRangeSelected(Calendar startDate, Calendar endDate);
-    }
-
     private Context mContext;
     private CustomTextView tvYearTitle;
     private AppCompatImageView imgVNavLeft, imgVNavRight;
@@ -44,8 +37,10 @@ public class DateRangeCalendarView extends LinearLayout {
     private CalendarStyleAttr calendarStyleAttr;
 
 
-    private final static int TOTAL_ALLOWED_MONTHS = 30;
+    public final static int TOTAL_ALLOWED_MONTHS = 30;
     private Calendar dateDefaultDisplayed;
+
+    private OnPageChangeListener onPageChangeListener;
 
     public DateRangeCalendarView(Context context) {
         super(context);
@@ -83,8 +78,8 @@ public class DateRangeCalendarView extends LinearLayout {
         initDataCalendar();
 
         adapterEventCalendarMonths = new AdapterEventCalendarMonths(mContext, dataList, calendarStyleAttr);
-        vpCalendar.setAdapter(adapterEventCalendarMonths);
         vpCalendar.setOffscreenPageLimit(0);
+        vpCalendar.setAdapter(adapterEventCalendarMonths);
         vpCalendar.setCurrentItem(TOTAL_ALLOWED_MONTHS);
         setCalendarYearTitle(TOTAL_ALLOWED_MONTHS);
         setListeners();
@@ -112,18 +107,25 @@ public class DateRangeCalendarView extends LinearLayout {
         vpCalendar.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
+                if (onPageChangeListener != null) {
+                    onPageChangeListener.onPageScrolled(position, positionOffset, positionOffsetPixels);
+                }
             }
 
             @Override
             public void onPageSelected(int position) {
                 setCalendarYearTitle(position);
                 setNavigationHeader(position);
+                if (onPageChangeListener != null) {
+                    onPageChangeListener.onPageSelected(position);
+                }
             }
 
             @Override
             public void onPageScrollStateChanged(int state) {
-
+                if (onPageChangeListener != null) {
+                    onPageChangeListener.onPageScrollStateChanged(state);
+                }
             }
         });
 
@@ -147,6 +149,23 @@ public class DateRangeCalendarView extends LinearLayout {
         });
     }
 
+    private Calendar getMonth(Calendar calendar) {
+        Calendar month = (Calendar) calendar.clone();
+        month.set(Calendar.DAY_OF_MONTH, 1);
+        month.set(Calendar.HOUR_OF_DAY, 0);
+        month.set(Calendar.MINUTE, 0);
+        month.set(Calendar.SECOND, 0);
+        month.set(Calendar.MILLISECOND, 0);
+        return month;
+    }
+
+    public Calendar getMonth(int positionOfViewPager) {
+        return getMonth(dataList.get(positionOfViewPager));
+    }
+
+    public Calendar getCurrentMonth() {
+        return getMonth(vpCalendar.getCurrentItem());
+    }
 
     /**
      * To set navigation header ( Left-Right button )
@@ -244,5 +263,27 @@ public class DateRangeCalendarView extends LinearLayout {
 
     public void invalidateCalendar() {
         adapterEventCalendarMonths.invalidateCalendar();
+    }
+
+    public void setOnPageChangeListener(OnPageChangeListener onPageChangeListener) {
+        this.onPageChangeListener = onPageChangeListener;
+    }
+
+
+
+    public interface CalendarListener {
+        void onFirstDateSelected(Calendar startDate);
+
+        void onDateRangeSelected(Calendar startDate, Calendar endDate);
+
+        void onDrawCompelete();
+    }
+
+    public interface OnPageChangeListener {
+        void onPageScrolled(int position, float positionOffset, int positionOffsetPixels);
+
+        void onPageSelected(int position);
+
+        void onPageScrollStateChanged(int state);
     }
 }

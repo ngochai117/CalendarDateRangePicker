@@ -5,6 +5,7 @@ import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.view.PagerAdapter;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,7 +16,6 @@ import com.archit.calendardaterangepicker.customviews.DateRangeMonthView;
 import com.archit.calendardaterangepicker.manager.DateRangeCalendarManager;
 import com.archit.calendardaterangepicker.models.CalendarStyleAttr;
 
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
@@ -51,33 +51,38 @@ public class AdapterEventCalendarMonths extends PagerAdapter {
     @NonNull
     @Override
     public Object instantiateItem(@NonNull ViewGroup container, int position) {
-
+        if (position == DateRangeCalendarView.TOTAL_ALLOWED_MONTHS + 1) {
+            if (calendarListener != null) {
+                calendarListener.onDrawCompelete();
+            }
+        }
         Calendar modelObject = dataList.get(position);
         LayoutInflater inflater = LayoutInflater.from(mContext);
         ViewGroup layout = (ViewGroup) inflater.inflate(R.layout.layout_pager_month, container, false);
 
         DateRangeMonthView dateRangeMonthView = layout.findViewById(R.id.cvEventCalendarView);
-        dateRangeMonthView.drawCalendarForMonth(calendarStyleAttr, getCurrentMonth(modelObject), hashMapDescription, dateRangeCalendarManager);
+        dateRangeMonthView.drawCalendarForMonth(calendarStyleAttr, getMonth(modelObject), hashMapDescription, dateRangeCalendarManager);
         dateRangeMonthView.setCalendarListener(calendarAdapterListener);
 
         container.addView(layout);
+
         return layout;
     }
 
     /**
-     * To clone calendar obj and get current month calendar starting from 1st date.
+     * To clone calendar obj and get month calendar starting from 1st date.
      *
      * @param calendar - Calendar
      * @return - Modified calendar obj of month of 1st date.
      */
-    private Calendar getCurrentMonth(Calendar calendar) {
-        Calendar current = (Calendar) calendar.clone();
-        current.set(Calendar.DAY_OF_MONTH, 1);
-        current.set(Calendar.HOUR_OF_DAY, 0);
-        current.set(Calendar.MINUTE, 0);
-        current.set(Calendar.SECOND, 0);
-        current.set(Calendar.MILLISECOND, 0);
-        return current;
+    private Calendar getMonth(Calendar calendar) {
+        Calendar month = (Calendar) calendar.clone();
+        month.set(Calendar.DAY_OF_MONTH, 1);
+        month.set(Calendar.HOUR_OF_DAY, 0);
+        month.set(Calendar.MINUTE, 0);
+        month.set(Calendar.SECOND, 0);
+        month.set(Calendar.MILLISECOND, 0);
+        return month;
     }
 
     @Override
@@ -118,6 +123,13 @@ public class AdapterEventCalendarMonths extends PagerAdapter {
             }, 50);
             if (calendarListener != null) {
                 calendarListener.onDateRangeSelected(startDate, endDate);
+            }
+        }
+
+        @Override
+        public void onDrawCompelete() {
+            if (calendarListener != null) {
+                calendarListener.onDrawCompelete();
             }
         }
     };

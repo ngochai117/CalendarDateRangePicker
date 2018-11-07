@@ -303,7 +303,7 @@ public class DateRangeMonthView extends LinearLayout {
      * @param calendar  - Calendar obj of specific date of the month.
      */
     private void drawDayContainer(DayContainer container, Calendar calendar) {
-
+        Log.d(LOG_TAG, "drawDayContainer: "+calendar.getTime());
         Calendar today = Calendar.getInstance();
         today.set(Calendar.HOUR_OF_DAY, 0);
         today.set(Calendar.MINUTE, 0);
