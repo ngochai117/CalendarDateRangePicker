@@ -18,6 +18,7 @@ import com.archit.calendardaterangepicker.models.CalendarStyleAttr;
 import java.text.DateFormatSymbols;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
@@ -43,6 +44,8 @@ public class DateRangeCalendarView extends LinearLayout {
 
 
     private final static int TOTAL_ALLOWED_MONTHS = 30;
+    private HashMap<Long, String> hashMapDescription = new HashMap<>();
+    private Calendar dateDefaultDisplayed;
 
     public DateRangeCalendarView(Context context) {
         super(context);
@@ -77,15 +80,7 @@ public class DateRangeCalendarView extends LinearLayout {
 
         vpCalendar = findViewById(R.id.vpCalendar);
 
-
-        dataList.clear();
-        Calendar today = (Calendar) Calendar.getInstance().clone();
-        today.add(Calendar.MONTH, -TOTAL_ALLOWED_MONTHS);
-
-        for (int i = 0; i < TOTAL_ALLOWED_MONTHS * 2; i++) {
-            dataList.add((Calendar) today.clone());
-            today.add(Calendar.MONTH, 1);
-        }
+        initDataCalendar();
 
         adapterEventCalendarMonths = new AdapterEventCalendarMonths(mContext, dataList, calendarStyleAttr);
         vpCalendar.setAdapter(adapterEventCalendarMonths);
@@ -94,6 +89,22 @@ public class DateRangeCalendarView extends LinearLayout {
         setCalendarYearTitle(TOTAL_ALLOWED_MONTHS);
 
         setListeners();
+    }
+
+    private void initDataCalendar() {
+        dataList.clear();
+        Calendar datedisplayed;
+        if (dateDefaultDisplayed == null) {
+            datedisplayed = (Calendar) Calendar.getInstance().clone();
+        } else {
+            datedisplayed = (Calendar) dateDefaultDisplayed.clone();
+        }
+        datedisplayed.add(Calendar.MONTH, -TOTAL_ALLOWED_MONTHS);
+
+        for (int i = 0; i < TOTAL_ALLOWED_MONTHS * 2; i++) {
+            dataList.add((Calendar) datedisplayed.clone());
+            datedisplayed.add(Calendar.MONTH, 1);
+        }
     }
 
     private void setListeners() {
@@ -218,5 +229,18 @@ public class DateRangeCalendarView extends LinearLayout {
 
     public void setRangeSelectedDate(@Nullable Calendar startDate, @Nullable Calendar endDate) {
         adapterEventCalendarMonths.setRangeSelectedDate(startDate, endDate);
+    }
+
+    public void updateDataDescription(HashMap<Long, String> data) {
+        this.hashMapDescription = data;
+        adapterEventCalendarMonths.invalidateCalendar();
+    }
+
+    public void setDateDisplayed(Calendar calendar) {
+        dateDefaultDisplayed = calendar;
+        initDataCalendar();
+        adapterEventCalendarMonths.invalidateCalendar();
+        vpCalendar.setCurrentItem(TOTAL_ALLOWED_MONTHS);
+        setCalendarYearTitle(TOTAL_ALLOWED_MONTHS);
     }
 }

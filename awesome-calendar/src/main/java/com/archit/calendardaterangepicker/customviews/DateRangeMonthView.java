@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Build;
 import android.support.annotation.ColorInt;
+import android.support.constraint.ConstraintLayout;
 import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -272,14 +273,14 @@ public class DateRangeMonthView extends LinearLayout {
 
         month.add(Calendar.DATE, -startDay + 1);
         LinearLayout weekRow;
-        RelativeLayout rlDayContainer;
+        ConstraintLayout ctlDayContainer;
         DayContainer container;
         for (int i = 0; i < llDaysContainer.getChildCount(); i++) {
             weekRow = (LinearLayout) llDaysContainer.getChildAt(i);
             for (int j = 0; j < 7; j++) {
-                rlDayContainer = (RelativeLayout) weekRow.getChildAt(j);
+                ctlDayContainer = (ConstraintLayout) weekRow.getChildAt(j);
 
-                container = new DayContainer(rlDayContainer);
+                container = new DayContainer(ctlDayContainer);
 
                 container.tvDate.setText(String.valueOf(month.get(Calendar.DATE)));
                 if (calendarStyleAttr.getFonts() != null) {
@@ -312,41 +313,27 @@ public class DateRangeMonthView extends LinearLayout {
 
         if (currentCalendarMonth.get(Calendar.MONTH) != calendar.get(Calendar.MONTH)) {
             hideDayContainer(container);
-        }else if(!calendarStyleAttr.isEnableDayAfterSelection() && calendar.after(today) && (today.get(Calendar.DAY_OF_YEAR) != calendar.get(Calendar.DAY_OF_YEAR))){
+        }else if(!calendarStyleAttr.isEnableDayAfterSelection() && calendar.after(today) /*&& (today.get(Calendar.DAY_OF_YEAR) != calendar.get(Calendar.DAY_OF_YEAR))*/){
             disableDayContainer(container);
             container.tvDate.setText(String.valueOf(date));
-        }else if(!calendarStyleAttr.isEnableDayBeforeSelection() && calendar.before(today) && (today.get(Calendar.DAY_OF_YEAR) != calendar.get(Calendar.DAY_OF_YEAR))){
+        }else if(!calendarStyleAttr.isEnableDayBeforeSelection() && calendar.before(today) /*&& (today.get(Calendar.DAY_OF_YEAR) != calendar.get(Calendar.DAY_OF_YEAR))*/){
             disableDayContainer(container);
             container.tvDate.setText(String.valueOf(date));
-        }/* else if (today.after(calendar) && (today.get(Calendar.DAY_OF_YEAR) != calendar.get(Calendar.DAY_OF_YEAR))) {
-            disableDayContainer(container);
+        }else {
             container.tvDate.setText(String.valueOf(date));
-        }*/ else {
-            container.tvDate.setText(String.valueOf(date));
-            @DateRangeCalendarManager.RANGE_TYPE
-            int type = dateRangeCalendarManager.checkDateRange(calendar);
-            if (type == DateRangeCalendarManager.RANGE_TYPE.START_DATE || type == DateRangeCalendarManager.RANGE_TYPE.LAST_DATE) {
-                makeAsSelectedDate(container, type, isToday);
-            } else if (type == DateRangeCalendarManager.RANGE_TYPE.MIDDLE_DATE) {
-                makeAsRangeDate(container, isToday);
-            } else {
-                enabledDayContainer(container, isToday);
-            }
-
-            /*if (isToday) {
-                GradientDrawable mDrawable = (GradientDrawable) ContextCompat.getDrawable(mContext, R.drawable.today_circle);
+            if (calendarStyleAttr.getCalendarViewMode() == CalendarStyleAttr.VIEW_MODE_RANGE_SELECTION) {
+                @DateRangeCalendarManager.RANGE_TYPE
+                int type = dateRangeCalendarManager.checkDateRange(calendar);
                 if (type == DateRangeCalendarManager.RANGE_TYPE.START_DATE || type == DateRangeCalendarManager.RANGE_TYPE.LAST_DATE) {
-                    mDrawable.setColor(calendarStyleAttr.getSelectedDateCircleColor());
+                    makeAsSelectedDate(container, type, isToday);
                 } else if (type == DateRangeCalendarManager.RANGE_TYPE.MIDDLE_DATE) {
-                    mDrawable.setColor(calendarStyleAttr.getRangeStripColor());
+                    makeAsRangeDate(container, isToday);
                 } else {
-                    mDrawable.setColor(Color.TRANSPARENT);
+                    enabledDayContainer(container, isToday, CalendarStyleAttr.VIEW_MODE_RANGE_SELECTION);
                 }
-                mDrawable.setStroke(mContext.getResources().getDimensionPixelSize(R.dimen.today_stroke_size),
-                        calendarStyleAttr.getTodayCircleColor());
-                container.tvDate.setBackground(mDrawable);
-                container.tvDate.setTextColor(calendarStyleAttr.getTodayColor());
-            }*/
+            } else {
+                enabledDayContainer(container, isToday, CalendarStyleAttr.VIEW_MODE_NONE_SELECTION);
+            }
         }
         container.rootView.setTag(DayContainer.GetContainerKey(calendar));
     }
@@ -384,7 +371,7 @@ public class DateRangeMonthView extends LinearLayout {
      *
      * @param container - Container
      */
-    private void enabledDayContainer(DayContainer container, boolean isToday) {
+    private void enabledDayContainer(DayContainer container, boolean isToday, int viewMode) {
         if (isToday) {
             GradientDrawable mDrawable = (GradientDrawable) ContextCompat.getDrawable(mContext, R.drawable.today_circle);
             mDrawable.setColor(Color.TRANSPARENT);
@@ -393,7 +380,6 @@ public class DateRangeMonthView extends LinearLayout {
             container.tvDate.setBackground(mDrawable);
             container.tvDate.setTextColor(calendarStyleAttr.getTodayColor());
         } else {
-
             container.tvDate.setBackgroundColor(Color.TRANSPARENT);
             container.tvDate.setTextColor(calendarStyleAttr.getDefaultDateColor());
         }
@@ -401,7 +387,11 @@ public class DateRangeMonthView extends LinearLayout {
         container.strip.setBackgroundColor(Color.TRANSPARENT);
         container.rootView.setBackgroundColor(Color.TRANSPARENT);
         container.rootView.setVisibility(VISIBLE);
-        container.rootView.setOnClickListener(dayClickListener);
+        if (viewMode == CalendarStyleAttr.VIEW_MODE_RANGE_SELECTION) {
+            container.rootView.setOnClickListener(dayClickListener);
+        } else {
+            container.rootView.setOnClickListener(null);
+        }
     }
 
     /**
@@ -411,7 +401,7 @@ public class DateRangeMonthView extends LinearLayout {
      * @param stripType - Right end date, Left end date or middle
      */
     private void makeAsSelectedDate(DayContainer container, @DateRangeCalendarManager.RANGE_TYPE int stripType, boolean isToday) {
-        RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) container.strip.getLayoutParams();
+        ConstraintLayout.LayoutParams layoutParams = (ConstraintLayout.LayoutParams) container.strip.getLayoutParams();
 
         Calendar minDate = dateRangeCalendarManager.getMinSelectedDate();
         Calendar maxDate = dateRangeCalendarManager.getMaxSelectedDate();
@@ -475,7 +465,7 @@ public class DateRangeMonthView extends LinearLayout {
         container.strip.setBackground(mDrawable);
         container.rootView.setBackgroundColor(Color.TRANSPARENT);
         container.rootView.setVisibility(VISIBLE);
-        RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) container.strip.getLayoutParams();
+        ConstraintLayout.LayoutParams layoutParams = (ConstraintLayout.LayoutParams) container.strip.getLayoutParams();
         layoutParams.setMargins(0, 0, 0, 0);
         container.strip.setLayoutParams(layoutParams);
         container.rootView.setOnClickListener(dayClickListener);

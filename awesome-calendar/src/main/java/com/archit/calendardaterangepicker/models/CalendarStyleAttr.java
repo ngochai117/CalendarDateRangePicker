@@ -6,11 +6,13 @@ import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
+import android.util.Log;
 
 import com.archit.calendardaterangepicker.R;
 
 public class CalendarStyleAttr {
-
+    public static int VIEW_MODE_RANGE_SELECTION = 0;
+    public static int VIEW_MODE_NONE_SELECTION = 1;
     private Typeface fonts;
     private Drawable headerBg;
 
@@ -27,6 +29,7 @@ public class CalendarStyleAttr {
     private int todayCircleColor;
     private boolean enableDayBeforeSelection = false;
     private boolean enableDayAfterSelection = true;
+    private int calendarViewMode = 0;
 
     public CalendarStyleAttr(Context context) {
         setDefAttributes(context);
@@ -81,7 +84,6 @@ public class CalendarStyleAttr {
 
         setTodayColor(ContextCompat.getColor(context, R.color.today_color));
         setTodayCircleColor(ContextCompat.getColor(context, R.color.today_circle_color));
-
     }
 
     public void setAttributes(Context context, AttributeSet attributeSet) {
@@ -110,7 +112,7 @@ public class CalendarStyleAttr {
                 enableDayBeforeSelection = ta.getBoolean(R.styleable.DateRangeMonthView_enable_day_before_selection, false);
                 enableDayAfterSelection = ta.getBoolean(R.styleable.DateRangeMonthView_enable_day_after_selection, true);
 
-
+                calendarViewMode = ta.getInt(R.styleable.DateRangeMonthView_calendar_view_mode, VIEW_MODE_RANGE_SELECTION);
             } finally {
                 ta.recycle();
             }
@@ -263,6 +265,14 @@ public class CalendarStyleAttr {
 
     public void setEnableDayAfterSelection(boolean enableDayAfterSelection) {
         this.enableDayAfterSelection = enableDayAfterSelection;
+    }
+
+    public int getCalendarViewMode() {
+        return calendarViewMode;
+    }
+
+    public void setCalendarViewMode(int calendarViewMode) {
+        this.calendarViewMode = calendarViewMode;
     }
 
     /**

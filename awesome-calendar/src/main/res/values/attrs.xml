@@ -21,7 +21,13 @@
         <attr name="today_circle_color" format="color"/>
         <attr name="enable_day_before_selection" format="boolean"/>
         <attr name="enable_day_after_selection" format="boolean"/>
+        <attr name="calendar_view_mode" format="enum">
+            <enum name="RangeSelection" value="0"/>
+            <enum name="NoneSelection" value="1"/>
+        </attr>
     </declare-styleable>
+
+
 
 
 </resources>
