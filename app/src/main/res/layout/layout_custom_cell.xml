@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/ContainerDayOfWeek">
+
+    <View
+        android:id="@+id/strip"
+        style="@style/StripRange" />
+
+    <com.archit.calendardaterangepicker.customviews.CustomTextView
+        android:id="@+id/dayOfMonthText"
+        style="@style/DayOfMonthStyle"
+        app:layout_constraintBottom_toBottomOf="@+id/strip"
+        app:layout_constraintTop_toTopOf="@+id/strip" />
+
+    <com.archit.calendardaterangepicker.customviews.CustomTextView
+        android:id="@+id/DayOfMonthDescriptionStyle"
+        style="@style/DayOfMonthDescriptionStyle"
+        android:layout_marginTop="@dimen/dayOfMonthDesMarginTop"
+        app:layout_constraintTop_toTopOf="@+id/strip" />
+</android.support.constraint.ConstraintLayout>

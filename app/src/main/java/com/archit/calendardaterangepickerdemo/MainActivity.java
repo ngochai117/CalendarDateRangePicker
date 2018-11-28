@@ -7,12 +7,14 @@ import android.support.constraint.ConstraintLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.util.TimeUtils;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import com.archit.calendardaterangepicker.customviews.CustomTextView;
 import com.archit.calendardaterangepicker.customviews.DateRangeCalendarView;
 
 import java.text.DateFormatSymbols;
@@ -21,7 +23,7 @@ import java.util.HashMap;
 import java.util.Locale;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity{
 
     private DateRangeCalendarView calendar;
     private boolean viewReady = false;
@@ -83,6 +85,19 @@ public class MainActivity extends AppCompatActivity {
 
                             }
                         });
+                        calendar.setCustomCellInterface(new DateRangeCalendarView.CustomCellInterface() {
+                            @Override
+                            public int getLayoutForDate() {
+                                return R.layout.layout_custom_cell;
+                            }
+
+                            @Override
+                            public void bindViewForDate(Calendar date, View view) {
+                                CustomTextView tv = view.findViewById(R.id.dayOfMonthText);
+                                tv.setText(String.valueOf(date.get(Calendar.MONTH)));
+                                Log.d("MainActivity", "bindViewForDate: "+String.valueOf(date.get(Calendar.MONTH)));
+                            }
+                        });
 
 
                         int totalDate = 20;
@@ -121,6 +136,7 @@ public class MainActivity extends AppCompatActivity {
                                 });
                             }
                         }).start();
+                        calendar.invalidateCalendar();
                     }
                 });
             }

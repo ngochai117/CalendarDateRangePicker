@@ -54,6 +54,8 @@ public class DateRangeMonthView extends LinearLayout {
 
     private HashMap<Long, String> hashMapDescription = new HashMap<>();
 
+    private DateRangeCalendarView.CustomCellInterface customCellInterface;
+
     public void setCalendarListener(DateRangeCalendarView.CalendarListener calendarListener) {
         this.calendarListener = calendarListener;
     }
@@ -290,7 +292,14 @@ public class DateRangeMonthView extends LinearLayout {
                     container.tvDate.setTypeface(calendarStyleAttr.getFonts());
                 }
                 Log.v(LOG_TAG, "Date: " + month.getTime().toString());
-                drawDayContainer(container, month);
+                if (customCellInterface == null) {
+                    drawDayContainer(container, month);
+                }else{
+                    ctlDayContainer.removeAllViews();
+                    View customCell = LayoutInflater.from(ctlDayContainer.getContext()).inflate(customCellInterface.getLayoutForDate(), ctlDayContainer, false);
+                    ctlDayContainer.addView(customCell);
+                    customCellInterface.bindViewForDate(month, customCell);
+                }
                 month.add(Calendar.DATE, 1);
             }
         }
@@ -534,6 +543,11 @@ public class DateRangeMonthView extends LinearLayout {
                 textView.setTypeface(calendarStyleAttr.getFonts());
             }
         }
+    }
+
+    public void setCustomCellInterface(DateRangeCalendarView.CustomCellInterface customCellInterface) {
+        this.customCellInterface = customCellInterface;
+        drawCalendarForMonth(currentCalendarMonth);
     }
 
     enum StateDate {

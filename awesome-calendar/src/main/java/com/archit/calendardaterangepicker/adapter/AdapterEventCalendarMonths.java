@@ -29,6 +29,7 @@ public class AdapterEventCalendarMonths extends PagerAdapter {
     private DateRangeCalendarManager dateRangeCalendarManager;
     private Handler mHandler;
     private HashMap<Long, String> hashMapDescription = new HashMap<>();
+    private DateRangeCalendarView.CustomCellInterface customCellInterface;
 
     public AdapterEventCalendarMonths(Context mContext, List<Calendar> list, CalendarStyleAttr calendarStyleAttr) {
         this.mContext = mContext;
@@ -63,7 +64,7 @@ public class AdapterEventCalendarMonths extends PagerAdapter {
         DateRangeMonthView dateRangeMonthView = layout.findViewById(R.id.cvEventCalendarView);
         dateRangeMonthView.drawCalendarForMonth(calendarStyleAttr, getMonth(modelObject), hashMapDescription, dateRangeCalendarManager);
         dateRangeMonthView.setCalendarListener(calendarAdapterListener);
-
+        dateRangeMonthView.setCustomCellInterface(customCellInterface);
         container.addView(layout);
 
         return layout;
@@ -167,5 +168,9 @@ public class AdapterEventCalendarMonths extends PagerAdapter {
 
     public void setDataDescription(HashMap<Long, String> hashMapDescription) {
         this.hashMapDescription = hashMapDescription;
+    }
+
+    public void setCustomCellInterface(DateRangeCalendarView.CustomCellInterface customCellInterface) {
+        this.customCellInterface = customCellInterface;
     }
 }

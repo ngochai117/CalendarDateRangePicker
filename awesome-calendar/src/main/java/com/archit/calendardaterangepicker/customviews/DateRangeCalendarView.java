@@ -42,6 +42,8 @@ public class DateRangeCalendarView extends LinearLayout {
 
     private OnPageChangeListener onPageChangeListener;
 
+    private CustomCellInterface customCellInterface;
+
     public DateRangeCalendarView(Context context) {
         super(context);
         initViews(context, null);
@@ -270,6 +272,9 @@ public class DateRangeCalendarView extends LinearLayout {
     }
 
 
+    public void setCustomCellInterface(CustomCellInterface customCellInterface) {
+        adapterEventCalendarMonths.setCustomCellInterface(customCellInterface);
+    }
 
     public interface CalendarListener {
         void onFirstDateSelected(Calendar startDate);
@@ -285,5 +290,11 @@ public class DateRangeCalendarView extends LinearLayout {
         void onPageSelected(int position);
 
         void onPageScrollStateChanged(int state);
+    }
+
+    public interface CustomCellInterface {
+        int getLayoutForDate();
+
+        void bindViewForDate(Calendar date, View view);
     }
 }
